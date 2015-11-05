@@ -1,0 +1,55 @@
+package addonlyset;
+
+service AddOnlySet {
+  rpc Add (AddRequest) returns (AddReply) {}
+  rpc Contains (ContainsRequest) returns (ContainsReply) {}
+  rpc Show (ShowRequest) returns (ShowReply) {}
+  rpc Size (SizeRequest) returns (SizeReply) {}
+  rpc AddNodeAddr (AddNodeRequest) returns (AddNodeReply) {}
+  rpc RemoveNodeAddr (RemoveNodeRequest) returns (RemoveNodeReply) {}
+}
+
+message AddRequest {
+  required string item = 1;
+}
+
+message AddReply {
+}
+
+message ContainsRequest {
+  required string item = 1;
+}
+
+message ContainsReply {
+  required bool inSet = 1;
+}
+
+message ShowRequest {
+}
+
+message ShowReply {
+  repeated string set = 1;
+}
+
+message SizeRequest {
+}
+
+message SizeReply {
+  required uint64 size = 1;
+}
+
+message AddNodeRequest {
+  required string addr = 1;
+}
+
+message AddNodeReply {
+  repeated string set = 1;
+}
+
+message RemoveNodeRequest {
+  required string addr = 1;
+}
+
+message RemoveNodeReply {
+  repeated string set = 1;
+}
