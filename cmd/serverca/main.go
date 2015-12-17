@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"sync"
 
-	"cluster"
+	"github.com/cagedmantis/crdt/cluster"
 )
 
 func main() {

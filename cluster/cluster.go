@@ -8,7 +8,7 @@ import (
 
 type Cluster struct {
 	serf    *client.RPCClient
-	members []client.Members
+	members []client.Member
 }
 
 func NewCluster(host string) (Cluster, error) {
@@ -18,16 +18,20 @@ func NewCluster(host string) (Cluster, error) {
 		fmt.Println(err)
 		return Cluster{}, err
 	}
-	return s, nil
+	c := Cluster{
+		serf: s,
+	}
+	return c, nil
 }
 
-func (c *Cluster) Members() ([]client.Members, error) {
-	c.members, err = c.serf.Members()
+func (c *Cluster) Members() ([]client.Member, error) {
+	members, err := c.serf.Members()
 	if err != nil {
 		fmt.Println(err)
-		return
+		return []client.Member{}, err
 	}
-	return c.members
+	c.members = members
+	return c.members, nil
 }
 
 func (c *Cluster) Monitor(filter string, ch chan<- map[string]interface{}) {
@@ -37,10 +41,10 @@ func (c *Cluster) Monitor(filter string, ch chan<- map[string]interface{}) {
 	}
 }
 
-func (c *Cluster) MonitorHandler(c chan map[string]interface{}) {
+func (c *Cluster) MonitorHandler(ch chan map[string]interface{}) {
 
 	for {
-		d := <-c
+		d := <-ch
 
 		fmt.Printf("%v\n", d)
 	}
